@@ -1,0 +1,27 @@
+.bg-banner{
+  /* background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 28rem; */
+}
+.bg-banner h3{
+  color: #fff;
+  font-size: 4rem;
+  text-align: center;
+}
+
+.bg-banner p{
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+}
+
+@media only screen and (max-width: 991px) {
+  .bg-banner h3{
+    font-size: 2rem;
+  }
+  
+  .bg-banner p{
+    font-size: .5rem;
+  }
+}

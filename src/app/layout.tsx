@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import LayoutHeader from "./layouts/LayoutHeader";
+import LayoutFooter from "./layouts/LayoutFooter";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,9 +16,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let isLogin = true;
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {isLogin ? <LayoutHeader/> : null}
+
+        {children}
+        
+        <LayoutFooter/>
+      </body>
     </html>
   );
 }
