@@ -6,6 +6,8 @@ import Link from 'next/link'
 import axios from 'axios'
 import Cards from '../components/Cards'
 
+import axiosJWTInterceptors from '../../utils/axiosIntercepotor';
+
 const route = [
   {
     title: <Link href={"/"}>Home</Link>,
@@ -22,11 +24,14 @@ const Blog = () => {
  
   useEffect(() => {
     const getDataPagination = async () => {
+      const accessToken = JSON.parse(localStorage.getItem("tokenAuth"))?.access_token; 
+      console.log("🚀 ~ getDataPagination ~ accessToken:", accessToken)
       try {
-        const res = await axios.get(`http://localhost:4000/article/pagination?page=${page}&limit=${pageSize}`,  {
+        const res = await axiosJWTInterceptors.get(`http://localhost:4000/article/pagination?page=${page}&limit=${pageSize}`,  {
           headers: {
             'api-key': '05f0b227-d216-4ba9-8c98-8be9b5e5c48b',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization' : 'Bearer ' + accessToken
           }
         });
         setData(res.data)

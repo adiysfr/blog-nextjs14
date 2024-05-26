@@ -4,6 +4,7 @@ import type { FormProps } from 'antd';
 import { useRouter } from 'next/navigation'
 import { Button, Checkbox, Form, Input } from 'antd';
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 import serviceMethod from '../../../api/service/serviceMethod';
 
@@ -14,8 +15,7 @@ type FieldType = {
 };
 
 const FormLogin = () => {
-  const router = useRouter()
-
+  const router = useRouter();
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     const body ={
       name : values.username,
@@ -29,8 +29,12 @@ const FormLogin = () => {
           'Content-Type': 'application/json'
         }
       });
-      localStorage.setItem("tokenAuth", JSON.stringify(res.data.data));
-      router.push('/')
+      const expireToken = jwtDecode(res.data.data.access_token)
+      // const currentDate = new Date().getTime()
+      document.cookie = `tokenAuth=${JSON.stringify({...res.data.data, expireToken: expireToken.exp})}; path=/; max-age=${60 * 60 * 24 * 7}; samesite=strict`;
+
+      localStorage.setItem("tokenAuth", JSON.stringify({...res.data.data, expireToken: expireToken.exp}));
+      // router.push('/')
     } catch (error) {
       console.error('Error posting data:', error);
     }

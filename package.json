@@ -11,6 +11,8 @@
   "dependencies": {
     "antd": "^5.17.2",
     "axios": "^1.7.2",
+    "jwt-decode": "^4.0.0",
+    "jwt-encode": "^1.0.1",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18"
