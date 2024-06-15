@@ -17,7 +17,6 @@ const route = [
 ]
 
 const page = async () => {
-
   return (
     <div className="container mx-auto px-4">
       <Breadcrumb

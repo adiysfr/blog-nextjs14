@@ -1,15 +1,28 @@
-'use client'
-import React from 'react'
+'use client';
+
+import React, { useEffect, useState } from 'react';
 
 const NameUser = () => {
-  const dataStorage = JSON.parse(localStorage.getItem("tokenAuth"));
+  const [name, setName] = useState(null);
 
-  if(dataStorage?.name){
+  useEffect(() => {
+    // Akses localStorage hanya di sisi klien
+    const dataStorage = localStorage.getItem("tokenAuth");
+    if (dataStorage) {
+      const parsedData = JSON.parse(dataStorage);
+      if (parsedData?.name) {
+        setName(parsedData.name);
+      }
+    }
+  }, []);
+
+  if (name) {
     return (
-    <div className='py-6'>Welcome, {dataStorage?.name}</div>
-  )
+      <div className='py-6'>Welcome, {name}</div>
+    );
+  } else {
+    return null;
   }
-  else return null;
-}
+};
 
-export default NameUser
+export default NameUser;

@@ -3,7 +3,6 @@ import FormLogin from './component/FormLogin'
 import { Breadcrumb } from 'antd'
 import Link from 'next/link'
 
-
 const route = [
   {
     title: <Link href={"/"}>Home</Link>,

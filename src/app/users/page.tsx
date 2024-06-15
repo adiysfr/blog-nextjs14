@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import React,{useEffect,useState} from 'react'
 import { useRouter } from 'next/navigation'
 
@@ -6,20 +7,19 @@ import axiosJWTInterceptors from '../../utils/axiosIntercepotor';
 
 const UserList = () => {
   const [data, setData] = useState([])
-  console.log("🚀 ~ UserList ~ data:", data)
   
   const router = useRouter();
 
-  const localStorageData = localStorage.getItem("tokenAuth")
-  const isLogin = JSON.parse(localStorageData) || null;
-
   useEffect(() => {
-    if (isLogin === null) {
+    const localStorageData = localStorage.getItem("tokenAuth");
+    if (!localStorageData) {
       router.push('/auth/login');
     }
-  }, [isLogin]);
+  }, []);
+
 
   useEffect(() => {
+    const localStorageData = localStorage.getItem("tokenAuth");
     const getDataUserPagination = async () => {
       const accessToken = JSON.parse(localStorageData)?.access_token; 
       try {
@@ -37,15 +37,12 @@ const UserList = () => {
     }
     getDataUserPagination();
   }, [])
-  
-  if (isLogin === null) {
-    return null; 
-  }
+
   return (
     <div>
       <ul>
       {data.data?.map(item => (
-          <li>{item.name}</li>
+          <li key={item?.id}>{item?.name}</li>
         ))}
       </ul>
     </div>
