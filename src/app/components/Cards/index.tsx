@@ -8,12 +8,20 @@ const { Meta } = Card;
 interface CardsProps {
   isPaging: boolean;
   more: boolean;
-  data: Array<any>;
+  data: {
+    page: number;
+    totalData: number;
+    data: Array<any>;
+  } | null;
   onChange?: (page: number, pageSize?: number | undefined) => void;
 }
 
+interface Data {
+  page: number;
+  totalData: number;
+}
+
 const Cards: React.FC<CardsProps> = ({ data, isPaging, more, onChange }) => {
-console.log("🚀 ~ data:", data)
 
   return (
     <div className='pt-8'>

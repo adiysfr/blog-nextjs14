@@ -1,6 +1,7 @@
 import { Breadcrumb } from 'antd'
 import Link from 'next/link'
 import React from 'react'
+import Banner from './component/Banner'
 
 const route = [
   {
@@ -18,6 +19,7 @@ const About = () => {
         items={route}
         className='mb-5'
       />
+      <Banner />
     </div>
   )
 }

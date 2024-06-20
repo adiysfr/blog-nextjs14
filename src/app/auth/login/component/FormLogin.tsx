@@ -6,7 +6,6 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-import serviceMethod from '../../../api/service/serviceMethod';
 
 type FieldType = {
   username?: string;
@@ -23,7 +22,7 @@ const FormLogin = () => {
     }
     // serviceMethod.postDataLogin(body);
     try {
-      const res = await axios.post('http://localhost:4000/users/login', body,  {
+      const res = await axios.post('http://103.175.218.12:4000/users/login', body,  {
         headers: {
           'api-key': '05f0b227-d216-4ba9-8c98-8be9b5e5c48b',
           'Content-Type': 'application/json'

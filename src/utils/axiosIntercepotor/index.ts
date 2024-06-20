@@ -4,14 +4,15 @@ import { jwtDecode } from "jwt-decode";
 const axiosJWTInterceptors = axios.create();
 
 axiosJWTInterceptors.interceptors.request.use(async (config) => {
-  const expire = JSON.parse(localStorage.getItem("tokenAuth"))?.expireToken; 
-  const id = JSON.parse(localStorage.getItem("tokenAuth"))?.id; 
-  const tokenData = JSON.parse(localStorage.getItem("tokenAuth"))
+  const localStorageData = localStorage.getItem("tokenAuth");
+  const expire = JSON.parse(localStorageData!)?.expireToken; 
+  const id = JSON.parse(localStorageData!)?.id; 
+  const tokenData = JSON.parse(localStorageData!)
   
   const currentDate = new Date();
   if (expire * 1000 < currentDate.getTime()) {
     try {
-      const res = await axios.get(`http://localhost:4000/refresh-token/${id}`, {
+      const res = await axios.get(`http://103.175.218.12:4000/refresh-token/${id}`, {
         headers: {
           'api-key': '05f0b227-d216-4ba9-8c98-8be9b5e5c48b'
         }

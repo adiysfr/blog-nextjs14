@@ -17,31 +17,49 @@ const route = [
   },
 ]
 
+interface TokenAuth {
+  access_token: string;
+}
+
+
 const Blog = () => {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(9)
-  const [data, setData] = useState([])
+  const [data, setData] = useState<any>({})
  
   useEffect(() => {
     const getDataPagination = async () => {
-      const accessToken = JSON.parse(localStorage.getItem("tokenAuth"))?.access_token; 
-      console.log("🚀 ~ getDataPagination ~ accessToken:", accessToken)
+      const localStorageData = localStorage.getItem("tokenAuth");
+      let accessToken: string | null = null;
+
+      if (localStorageData) {
+        try {
+          const parsedData: TokenAuth = JSON.parse(localStorageData);
+          accessToken = parsedData.access_token;
+        } catch (error) {
+          console.error("Failed to parse localStorageData", error);
+        }
+      }
+
       try {
-        const res = await axiosJWTInterceptors.get(`http://localhost:4000/article/pagination?page=${page}&limit=${pageSize}`,  {
+        const res = await axiosJWTInterceptors.get(`http://103.175.218.12:4000/article/pagination?page=${page}&limit=${pageSize}`, {
           headers: {
             'api-key': '05f0b227-d216-4ba9-8c98-8be9b5e5c48b',
             'Content-Type': 'application/json',
-            'Authorization' : 'Bearer ' + accessToken
+            'Authorization': `Bearer ${accessToken}`
           }
         });
-        setData(res.data)
+        console.log("🚀 ~ getDataPagination ~ res:", res)
+        setData(res.data);
       } catch (error) {
         console.error('Error posting data:', error);
       }
-    }
+    };
+
     getDataPagination();
   }, [page])
-  const hancleClickPagination = (e) => {
+  
+  const hancleClickPagination = (e:any) => {
     setPage(e)
   }
   return (
@@ -50,7 +68,7 @@ const Blog = () => {
         items={route}
         className='mb-5'
       />
-      <Cards data={data} isPaging={true} onChange={(e)=>hancleClickPagination(e)}/>
+      <Cards data={data} isPaging={true} onChange={(e)=>hancleClickPagination(e)} more={true}/>
     </div>
   )
 }
