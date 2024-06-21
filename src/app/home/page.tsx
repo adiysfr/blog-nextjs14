@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import React from 'react'
-import ListFilm from "./component/ListFilm/page";
 import { Breadcrumb } from "antd";
 import Banner from "../components/Banner";
 import NameUser from "./component/NameUser";
