@@ -1,87 +1,55 @@
 'use client'
 import Link from 'next/link'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { Card, Pagination } from 'antd';
+import Cards from '../../../components/Cards'
+import axiosJWTInterceptors from '../../../../utils/axiosIntercepotor';
 
-const { Meta } = Card;
-
+interface TokenAuth {
+  access_token: string;
+}
 const CardBlog = () => {
-  const data = [
-    {
-      id: 1,
-      title: 'blog 1',
-      desc: 'Blog 1 descriptsions',
-      image: 'https://miro.medium.com/v2/resize:fit:1400/1*BQZAbczBfLYtPp-6HmN0ZQ.jpeg'
-    },
-    {
-      id: 2,
-      title: 'blog 2',
-      desc: 'Blog 1 descriptsions',
-      image: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png'
-    },
-    {
-      id: 3,
-      title: 'blog 3',
-      desc: 'Blog 1 descriptsions',
-      image: 'https://miro.medium.com/v2/resize:fit:1400/1*BQZAbczBfLYtPp-6HmN0ZQ.jpeg'
-    },
-    {
-      id: 4,
-      title: 'blog 3',
-      desc: 'Blog 1 descriptsions',
-      image: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png'
-    },
-    {
-      id: 5,
-      title: 'blog 3',
-      desc: 'Blog 1 descriptsions',
-      image: 'https://miro.medium.com/v2/resize:fit:1400/1*BQZAbczBfLYtPp-6HmN0ZQ.jpeg'
-    },
-    {
-      id: 6,
-      title: 'blog 3',
-      desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-      image: 'https://miro.medium.com/v2/resize:fit:1400/1*BQZAbczBfLYtPp-6HmN0ZQ.jpeg'
-    },
-  ]  
-  return (
-    <div>
-      <div className='py-5'>
-        <Pagination defaultCurrent={1} total={20} />
-      </div>
-      <div className='grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4'>
-        {/* {data.map(item  =>(
-          <Link href='#' key={item.id} className='p-3 bg-[#3b3b3b] rounded-lg lg:h-90 overflow-hidden'>
-            <div className='h-[9rem] overflow-hidden'>
-              <img className='hover:scale-105 transition duration-300 ease-in-out' src={item.image} />
-            </div>
-            <h3 className='text-xl py-3'>{item.title}</h3>
-            <p className='truncate '>{item.desc}</p>
-          </Link>
-        ))} */}
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(9)
+  const [data, setData] = useState<any>({})
+  useEffect(() => {
+    const getDataPagination = async () => {
+      const localStorageData = localStorage.getItem("tokenAuth");
+      let accessToken: string | null = null;
 
-      {data.map(item  =>(
-        <Link 
-          href={{
-            pathname: `/blogs/${item.id}`,
-          }} 
-          key={item.id} 
-          className='p-3 bg-[#3b3b3b] rounded-lg lg:h-90 overflow-hidden'
-        >
-          <Card
-            hoverable
-            cover={
-              <div className='h-[9rem] overflow-hidden'>
-                <img className='hover:scale-105 transition duration-300 ease-in-out'  alt="example" src={item.image} />
-              </div>
-            }
-          >
-            <Meta title="Europe Street beat" description="www.instagram.com" />
-          </Card>
-        </Link>
-      ))}
-      </div>
-    </div>
+      if (localStorageData) {
+        try {
+          const parsedData: TokenAuth = JSON.parse(localStorageData);
+          accessToken = parsedData.access_token;
+        } catch (error) {
+          console.error("Failed to parse localStorageData", error);
+        }
+      }
+
+      try {
+        const res = await axiosJWTInterceptors.get(`http://103.175.218.12:4000/article/pagination?page=${page}&limit=${pageSize}`, {
+          headers: {
+            'api-key': '05f0b227-d216-4ba9-8c98-8be9b5e5c48b',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+        setData(res.data);
+      } catch (error) {
+        console.error('Error posting data:', error);
+      }
+    };
+
+    getDataPagination();
+  }, [page])
+  
+  const hancleClickPagination = (e:any) => {
+    setPage(e)
+  }
+  return (
+    <>
+      <Cards data={data} isPaging={true} onChange={(e)=>hancleClickPagination(e)} more={true}/>
+    </>
   )
 }
 

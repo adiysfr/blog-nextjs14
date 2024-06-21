@@ -49,9 +49,9 @@ const UserList = () => {
   return (
     <div>
       <ul>
-      {data.map((item:Item) => (
+      {/* {data.map((item:Item) => (
           <li key={item?.id}>{item?.name}</li>
-        ))}
+        ))} */}
       </ul>
     </div>
   )

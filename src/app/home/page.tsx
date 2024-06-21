@@ -9,6 +9,9 @@ import CardComponentHome from "./component/CardComponentHome/CardComponentHome";
 export const metadata: Metadata = {
   title: "Home",
   description: "Home Page",
+  icons: {
+    icon: '/markadi.png',
+  },
 };
 const route = [
   {

@@ -12,8 +12,10 @@ type FieldType = {
   password?: string;
   remember?: string;
 };
-
-const FormLogin = () => {
+interface Item {
+  setIsLogin: Function;
+}
+const FormLogin: React.FC<Item> = ({setIsLogin}) => {
   // const router = useRouter();
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     const body ={
@@ -29,11 +31,8 @@ const FormLogin = () => {
         }
       });
       const expireToken = jwtDecode(res.data.data.access_token)
-
-      document.cookie = `tokenAuth=${JSON.stringify({...res.data.data, expireToken: expireToken.exp})}; path=/; max-age=${60 * 60 * 24 * 7}; samesite=strict`;
-
+      setIsLogin(true)
       localStorage.setItem("tokenAuth", JSON.stringify({...res.data.data, expireToken: expireToken.exp}));
-      // router.push('/')
     } catch (error) {
       console.error('Error posting data:', error);
     }

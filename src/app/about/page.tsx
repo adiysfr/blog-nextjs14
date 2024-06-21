@@ -1,7 +1,16 @@
+import type { Metadata } from "next";
 import { Breadcrumb } from 'antd'
 import Link from 'next/link'
 import React from 'react'
 import Banner from './component/Banner'
+
+export const metadata: Metadata = {
+  title: "About",
+  description: "About Page",
+  icons: {
+    icon: '/markadi.png',
+  },
+};
 
 const route = [
   {
