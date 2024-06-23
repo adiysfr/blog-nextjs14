@@ -39,7 +39,12 @@ const LayoutHeader = () => {
   };
   return (
     <div>
-      <header className='container mx-auto p-5'>
+      <header className='container mx-auto p-5 mb-8 flex flex-nowrap gap-4 items-center justify-between'>
+        <div>
+          <Link href={'/home'}>
+            <img className='w-[100px] sm:w-[200px] rounded-lg' src='/adiyr1.png' />
+          </Link>
+        </div>
         <ul className='flex flex-nowrap gap-4 justify-end'>
           {navLink().map( item => {
             const isActive = pathName.startsWith(item.href);

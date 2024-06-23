@@ -48,7 +48,7 @@ const CardBlog = () => {
   }
   return (
     <>
-      <Cards data={data} isPaging={true} onChange={(e)=>hancleClickPagination(e)} more={true}/>
+      <Cards data={data} isPaging={true} onChange={(e)=>hancleClickPagination(e)} more={false}/>
     </>
   )
 }

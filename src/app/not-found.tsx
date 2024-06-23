@@ -1,11 +1,16 @@
 import React from 'react'
+import { Button, Result } from 'antd';
 
 const notFound = () => {
   return (
-    <div className='text-center'>
-      <span>404</span>
-      <h1>Page Not Found !</h1>
-    </div>
+    <>
+      <Result
+          status="404"
+          title="404"
+          subTitle="Sorry, the page you are looking for is not available!"
+          extra={<Button type="primary">Back Home</Button>}
+        />
+    </>
   )
 }
 
